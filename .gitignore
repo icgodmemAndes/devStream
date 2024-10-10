@@ -1,3 +1,10 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
 
 # Distribution / packaging
 .Python
@@ -66,7 +73,7 @@ docs/_build/
 
 # PyBuilder
 .pybuilder/
-
+target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
@@ -113,8 +120,8 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-#.env
-#.env.development
+.env
+.env.development
 .venv
 env/
 venv/
@@ -151,9 +158,7 @@ cython_debug/
 #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
-.idea/
-.idea/*
-
+#.idea/
 
 # OS Mac
 .idea
