@@ -13,7 +13,7 @@ from validators.validators import validate_schema, CreateBlacklistSchema
 
 
 
-AUTH_TOKEN = os.environ["TOKEN"]
+AUTH_TOKEN = os.environ.get('API_SECRET', 'api_secret')
 
 class CreateBlacklist(BaseCommannd):
     def __init__(self, data, ipaddress, headers):
