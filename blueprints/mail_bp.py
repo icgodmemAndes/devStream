@@ -2,9 +2,11 @@ import os
 from flask import jsonify, request, Blueprint
 from flask_request_validator import validate_params, Param, PATH, ValidRequest, NotEmpty, IsEmail
 
+from commands.create import CreateBlacklist
+from commands.reset import ResetRoutes
 from models.base import db
 from models.mail import MailBlocked
-from errors.errrors import ApiError
+from errors.errors import ApiError, InvalidDataError
 
 mail_blueprint = Blueprint('emails', __name__, url_prefix='/')
 
@@ -23,7 +25,6 @@ def ping():
 def get_mail_blocked(_valid: ValidRequest, email: str):
     validate_authorization(request.headers.get('Authorization'))
     mail_response = db.session.query(MailBlocked).filter_by(email=email).one_or_none()
-
     return jsonify({
         'is_blocked': False if mail_response is None else True,
         'blocked_reason': '' if mail_response is None else mail_response.blocked_reason,
@@ -33,3 +34,27 @@ def get_mail_blocked(_valid: ValidRequest, email: str):
 def validate_authorization(authorization):
     if authorization != f'Bearer {api_secret}':
         raise ApiError(401, 'Not authorized')
+
+@mail_blueprint.route("/", methods=["GET"])
+def healthcheck():
+    return jsonify({'status': 'UP'})
+
+# Recurso que expone la funcionalidad reset blacklist
+@mail_blueprint.route('/blacklists/reset', methods=['POST'])
+def reset():
+    ResetRoutes().execute()
+    return jsonify({'msg': 'Todos los datos fueron eliminados'})
+
+# Recurso que expone la funcionalidad create blacklist
+@mail_blueprint.route('/blacklists', methods=['POST'])
+def create_blacklist():
+    try:
+        requestData = request.get_json()
+        headers = request.headers
+        ipAddress = request.remote_addr
+        result = CreateBlacklist(requestData, ipAddress, headers).execute()
+        print(result)
+        return jsonify(result), 201
+
+    except InvalidDataError:
+        return "", 404

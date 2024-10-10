@@ -5,10 +5,13 @@ from datetime import datetime
 import traceback
 import uuid
 
-from ..commands.base_command import BaseCommannd
-from ..errors.errors import ApiError, MissingToken, InvalidToken, EmailBlacklisted
-from ..models.model import db, Blacklist
-from ..validators.validators import validate_schema, CreateBlacklistSchema
+from commands.base_command import BaseCommannd
+from errors.errors import MissingToken, InvalidToken, EmailBlacklisted, ApiError
+from models.base import db
+from models.mail import MailBlocked
+from validators.validators import validate_schema, CreateBlacklistSchema
+
+
 
 AUTH_TOKEN = os.environ["TOKEN"]
 
@@ -45,25 +48,25 @@ class CreateBlacklist(BaseCommannd):
 
     # Función que valida si existe un usuario con el username
     def validateEmailAndUuid(self, email, uuid_validate):
-        userConsult = Blacklist.query.filter(Blacklist.email == email, Blacklist.app_uuid == uuid_validate).first()
+        userConsult = db.session.query(MailBlocked).filter_by(email=email,app_uuid=uuid_validate ).one_or_none()
+        print(userConsult)
         if userConsult != None:
             raise EmailBlacklisted
     def execute(self):
         try:
-            new_blacklist = Blacklist(
+            new_blacklist = MailBlocked(
                 id=self.id,
                 email=self.email,
                 app_uuid=self.appUuid,
                 blocked_reason=self.blockedReason,
                 ip_address=self.ipAddress,
-                createdAt=self.createdAt
+                created_at=self.createdAt
             )
             db.session.add(new_blacklist)
             db.session.commit()
             return {'id': self.id,
                     'msg': 'Blacklist agregada satisfactoriamente',
                     'createdAt': self.createdAt.replace(microsecond=0).isoformat()}
-            return {new_blacklist}
         except SQLAlchemyError as e: # pragma: no cover
             traceback.print_exc()
             raise ApiError(e)

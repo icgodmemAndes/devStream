@@ -4,7 +4,7 @@ from flask_cors import CORS
 from flask_request_validator import RequestError, InvalidRequestError
 
 from models.base import db
-from errors.errrors import ApiError
+from errors.errors import ApiError
 from blueprints.mail_bp import mail_blueprint
 
 # PostgresSQL configuration
