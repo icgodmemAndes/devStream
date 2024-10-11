@@ -25,6 +25,6 @@ class MissingToken(ApiError):
 class InvalidToken(ApiError):
     code = 401
     message = "El token no es válido o está vencido"
-    def __init__(self, code, message):
-        self.code = code or self.code
-        self.message = message or self.message
+def __init__(self, code, message):
+    self.code = code or self.code
+    self.message = message or self.message
