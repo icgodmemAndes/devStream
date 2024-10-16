@@ -8,11 +8,11 @@ from errors.errors import ApiError
 from blueprints.mail_bp import mail_blueprint
 
 # PostgresSQL configuration
-host = os.environ.get('DB_HOST', 'localhost')
-port = os.environ.get('DB_PORT', 5432)
-user = os.environ.get('DB_USER', 'postgres')
-password = os.environ.get('DB_PASSWORD', 'postgres')
-database_name = os.environ.get('DB_NAME', 'mails')
+host = os.environ.get('RDS_HOSTNAME', 'localhost')
+port = os.environ.get('RDS_PORT', 5432)
+user = os.environ.get('RDS_USERNAME', 'postgres')
+password = os.environ.get('RDS_PASSWORD', 'postgres')
+database_name = os.environ.get('RDS_DB_NAME', 'mails')
 
 
 def create_app():
