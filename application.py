@@ -32,17 +32,17 @@ def create_app():
     return _app
 
 
-app = create_app()
-db.init_app(app)
+application = create_app()
+db.init_app(application)
 db.create_all()
 
 
-@app.errorhandler(ApiError)
+@application.errorhandler(ApiError)
 def handle_api_error(error):
     return jsonify({'message': error.message}), error.code
 
 
-@app.errorhandler(RequestError)
+@application.errorhandler(RequestError)
 def handle_request_error(error):
     if isinstance(error, InvalidRequestError):
         return str(error.to_dict()), 400
@@ -50,4 +50,4 @@ def handle_request_error(error):
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5050, debug=True)
+    application.run(debug=True)
