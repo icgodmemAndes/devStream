@@ -2,11 +2,10 @@
 
 import traceback
 
-from commands.base_command import BaseCommannd
-from errors.errors import ApiError
-from models.base import db
-from models.mail import MailBlocked
-
+from src.commands.base_command import BaseCommannd
+from src.errors.errors import ApiError
+from src.models.base import db
+from src.models.mail import MailBlocked
 
 
 # Clase que contiene la logica de borrar tabla routes

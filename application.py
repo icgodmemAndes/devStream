@@ -3,15 +3,15 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_request_validator import RequestError, InvalidRequestError
 
-from models.base import db
-from errors.errors import ApiError
-from blueprints.mail_bp import mail_blueprint
+from src.blueprints.mail_bp import mail_blueprint
+from src.errors.errors import ApiError
+from src.models.base import db
 
 # PostgresSQL configuration
 host = os.environ.get('RDS_HOSTNAME', 'localhost')
 port = os.environ.get('RDS_PORT', 5432)
 user = os.environ.get('RDS_USERNAME', 'postgres')
-password = os.environ.get('RDS_PASSWORD', 'postgres')
+password = os.environ.get('RDS_PASSWORD', 'gomito21')
 database_name = os.environ.get('RDS_DB_NAME', 'mails')
 
 
