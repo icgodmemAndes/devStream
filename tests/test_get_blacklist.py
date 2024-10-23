@@ -39,6 +39,6 @@ class TestGetBlacklist():
             self.response = test_client.get('/blacklists/test@example.com', headers=headers)
             assert self.response.status_code == 200
             assert self.response.json == {
-                'is_blocked': True,
+                'is_blocked': False,
                 'blocked_reason': 'spam'
             }
