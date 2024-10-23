@@ -13,12 +13,6 @@ mail_blueprint = Blueprint('emails', __name__, url_prefix='/')
 api_secret = os.environ.get('API_SECRET', 'api_secret')
 
 
-@mail_blueprint.route('/ping', methods=['GET'])
-@mail_blueprint.route('/ping/', methods=['GET'])
-def ping():
-    return "pong", 200
-
-
 @mail_blueprint.route('/blacklists/<string:email>', methods=['GET'])
 @mail_blueprint.route('/blacklists/<string:email>/', methods=['GET'])
 @validate_params(Param('email', PATH, str, rules=[NotEmpty(), IsEmail()]))
