@@ -26,5 +26,5 @@ class TestGetBlacklist():
         if token:
             headers.update({'Authorization': f'Bearer {token}'})
         with self.application.test_client() as test_client:
-            self.response = test_client.post('/blacklists', json=data_blacklist, headers=headers)
+            self.response = test_client.get('/blacklists/jazzjhon@gmail.com', headers=headers)
             self.response_json = self.response.json
