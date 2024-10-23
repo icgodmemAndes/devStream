@@ -2,11 +2,11 @@ import os
 from flask import jsonify, request, Blueprint
 from flask_request_validator import validate_params, Param, PATH, ValidRequest, NotEmpty, IsEmail
 
-from commands.create import CreateBlacklist
-from commands.reset import ResetRoutes
-from models.base import db
-from models.mail import MailBlocked
-from errors.errors import ApiError, InvalidDataError
+from src.commands.create import CreateBlacklist
+from src.commands.reset import ResetRoutes
+from src.errors.errors import ApiError, InvalidDataError
+from src.models.base import db
+from src.models.mail import MailBlocked
 
 mail_blueprint = Blueprint('emails', __name__, url_prefix='/')
 

@@ -2,7 +2,7 @@ from jsonschema import validate
 import traceback
 import jsonschema
 
-from errors.errors import BadRequest
+from src.errors.errors import BadRequest
 
 CreateBlacklistSchema = {
     "type": "object",

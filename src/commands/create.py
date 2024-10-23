@@ -5,13 +5,11 @@ from datetime import datetime
 import traceback
 import uuid
 
-from commands.base_command import BaseCommannd
-from errors.errors import MissingToken, InvalidToken, EmailBlacklisted, ApiError
-from models.base import db
-from models.mail import MailBlocked
-from validators.validators import validate_schema, CreateBlacklistSchema
-
-
+from src.commands.base_command import BaseCommannd
+from src.errors.errors import MissingToken, EmailBlacklisted, InvalidToken, ApiError
+from src.models.base import db
+from src.models.mail import MailBlocked
+from src.validators.validators import CreateBlacklistSchema, validate_schema
 
 AUTH_TOKEN = os.environ.get('API_SECRET', 'api_secret')
 
