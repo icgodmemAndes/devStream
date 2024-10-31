@@ -11,16 +11,19 @@ phases:
     commands:
       - echo "Ejecutando pruebas..."
       - pytest --cov-fail-under=67 --cov=src
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 565393052628.dkr.ecr.us-east-1.amazonaws.com
   build:
     commands:
-      - echo "Generando artefacto..."
-      - mkdir -p output
-      - rsync -av --exclude='output' --exclude='venv' --exclude='tests' ./ output/
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -t mails:latest .
+      - docker tag mails:latest 565393052628.dkr.ecr.us-east-1.amazonaws.com/mails:latest
   post_build:
      commands:
-       - echo "Revisión Archivos Artefacto..."
-       - ls -l output
+       - echo Build completed on `date`
+       - echo Pushing the Docker image...
+       - docker push 565393052628.dkr.ecr.us-east-1.amazonaws.com/mails:latest
 artifacts:
   files:
     - '**/*'
-  base-directory: output
