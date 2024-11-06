@@ -23,7 +23,7 @@ class TestGetBlacklist():
             assert self.response.status_code == 200
             assert self.response.json == {
                 'is_blocked': True,
-                'blocked_reason': ''
+                'blocked_reason': '---'
             }
 
     @patch('src.blueprints.mail_bp.db')
