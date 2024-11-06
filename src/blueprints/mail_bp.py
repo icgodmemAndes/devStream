@@ -35,7 +35,7 @@ def healthcheck():
 
 @mail_blueprint.route("/health", methods=["GET"])
 def healthcheckfull():
-    return jsonify({'status': 'UP'})
+    return jsonify({'status': 'UP', 'version': 3})
 
 # Recurso que expone la funcionalidad reset blacklist
 @mail_blueprint.route('/blacklists/reset', methods=['POST'])
