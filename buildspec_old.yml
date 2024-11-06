@@ -1,0 +1,26 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.11
+    commands:
+      - echo "Instalando dependencias..."
+      - pip install -r requirements.txt
+  pre_build:
+    commands:
+      - echo "Ejecutando pruebas..."
+      - pytest --cov-fail-under=67 --cov=src
+  build:
+    commands:
+      - echo "Generando artefacto..."
+      - mkdir -p output
+      - rsync -av --exclude='output' --exclude='venv' --exclude='tests' ./ output/
+  post_build:
+     commands:
+       - echo "Revisión Archivos Artefacto..."
+       - ls -l output
+artifacts:
+  files:
+    - '**/*'
+  base-directory: output

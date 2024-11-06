@@ -33,6 +33,10 @@ def validate_authorization(authorization):
 def healthcheck():
     return jsonify({'status': 'UP', 'version': 2})
 
+@mail_blueprint.route("/health", methods=["GET"])
+def healthcheckfull():
+    return jsonify({'status': 'UP'})
+
 # Recurso que expone la funcionalidad reset blacklist
 @mail_blueprint.route('/blacklists/reset', methods=['POST'])
 def reset():

@@ -11,16 +11,33 @@ phases:
     commands:
       - echo "Ejecutando pruebas..."
       - pytest --cov-fail-under=67 --cov=src
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 396913726169.dkr.ecr.us-east-1.amazonaws.com
   build:
     commands:
-      - echo "Generando artefacto..."
-      - mkdir -p output
-      - rsync -av --exclude='output' --exclude='venv' --exclude='tests' ./ output/
+      - echo Build started on `date`
+      - echo Building the Docker image...          
+      - docker build -t python_app_devstream .
+      - docker tag python_app_devstream:latest 396913726169.dkr.ecr.us-east-1.amazonaws.com/python_app_devstream:latest
   post_build:
      commands:
-       - echo "Revisión Archivos Artefacto..."
-       - ls -l output
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push 396913726169.dkr.ecr.us-east-1.amazonaws.com/python_app_devstream:latest
+      - echo Writing Image Definitions file...
+      - printf '[{"name":"container-app-python-devstream","imageUri":"396913726169.dkr.ecr.us-east-1.amazonaws.com/python_app_devstream:latest"}]' > imagedefinitions.json
+      - printf '{"ImageURI":"396913726169.dkr.ecr.us-east-1.amazonaws.com/python_app_devstream:latest"}' > imageDetail.json
+      - cat imagedefinitions.json 
 artifacts:
   files:
     - '**/*'
-  base-directory: output
+    - imagedefinitions.json
+    - imageDetail.json
+  secondary-artifacts:
+    DefinitionArtifact:
+      files:
+        - appspec.yaml
+        - taskdef.json
+    ImageArtifact:
+      files:
+        - imageDetail.json
