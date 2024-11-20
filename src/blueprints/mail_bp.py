@@ -31,7 +31,7 @@ def validate_authorization(authorization):
 
 @mail_blueprint.route("/", methods=["GET"])
 def healthcheck():
-    return jsonify({'status': 'UP', 'version': 2})
+    return jsonify({'status': 'UP', 'version': 3})
 
 @mail_blueprint.route("/health", methods=["GET"])
 def healthcheckfull():

@@ -8,7 +8,7 @@ from src.errors.errors import ApiError
 from src.models.base import db
 
 # PostgresSQL configuration
-host = os.environ.get('RDS_HOSTNAME', '34.30.194.180')
+host = os.environ.get('RDS_HOSTNAME', '34.66.26.137')
 port = os.environ.get('RDS_PORT', 5432)
 user = os.environ.get('RDS_USERNAME', 'postgres')
 password = os.environ.get('RDS_PASSWORD', 'StrongPassword2024#')
